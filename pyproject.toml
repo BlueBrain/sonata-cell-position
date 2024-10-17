@@ -1,14 +1,11 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
-
 [project]
 name = "sonata-cell-position"
-version = "2024.10.1"
+version = "0.0.0"
 description = "sonata-cell-position web API"
-readme = "README.md"
-requires-python = ">=3.10"
+authors = [
+    {name = "Blue Brain Project, EPFL"},
+    {name = "Gianluca Ficarelli", email = "gianluca.ficarelli@epfl.ch"},
+]
 dependencies = [
     "cachetools",
     "entity-management>=1.2.36",
@@ -29,58 +26,72 @@ dependencies = [
     "uvicorn[standard]",
     "voxcell",
 ]
-
+requires-python = "==3.12.*"
+readme = "README.md"
+license = {text = "Apache-2.0"}
 
 [project.optional-dependencies]
 cli = [
     "click",
 ]
 
-[tool.black]
-line-length = 100
-target-version = ['py310']
-include = 'src/.*\.py$|tests/.*\.py$|doc/source/conf\.py$|setup\.py$'
-
-
-[tool.isort]
-profile = "black"
-line_length = 100
+[tool.uv]
+dev-dependencies = [
+    "coverage[toml]",
+    "httpx",
+    "mypy",
+    "pytest",
+    "pytest-asyncio<0.22",  # https://github.com/pytest-dev/pytest-asyncio/issues/706
+    "pytest-cov",
+    "pytest-loguru",
+    "ruff",
+    "types-cachetools",
+    "types-requests",
+    "types-PyYAML",
+]
 
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = [
     "D", # pydocstyle
     "E", # pycodestyle
     "F", # pyflakes
+    "I", # isort
+    "PL", # pylint
     "UP", # pyupgrade
+]
+ignore = [
+    "FIX002",  # Line contains TODO, consider resolving the issue
+    "TD",      # TODOs
+]
+
+[tool.ruff.lint.isort]
+known-local-folder = ["tests"]
+combine-as-imports = true
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = [
+    "ANN",     # Missing type annotation
+    "ARG002",  # Unused method argument
+    "D",       # pydocstyle
+    "ERA001",  # Found commented-out code
+    "INP001",  # Missing `__init__.py`
+    "PLC2701", # Private name import from external module
+    "PLR2004", # magic value (constant) used in comparison (i.e. expected == 3)
+    "S101",    # Use of `assert` detected
+    "SLF001",  # private member access
 ]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
-
-[tool.pylint.main]
-extension-pkg-allow-list = ["pydantic"]
-
-[tool.pylint."messages control"]
-disable = ["fixme", "invalid-name", "len-as-condition", "no-else-return", "too-many-positional-arguments"]
-
-[tool.pylint.format]
-# Regexp for a line that is allowed to be longer than the limit.
-ignore-long-lines = "^\\s*(# )?<?https?://\\S+>?$"
-# Maximum number of characters on a single line.
-max-line-length = 100
-
-[tool.pylint.design]
+[tool.ruff.lint.pylint]
 # Maximum number of arguments for function / method
 max-args = 9
-# Argument names that match this expression will be ignored. Default to name
-# with leading underscore
-ignored-argument-names = "_.*"
 # Maximum number of locals for function / method body
 max-locals = 15
 # Maximum number of return / yield for function / method body
@@ -89,28 +100,8 @@ max-returns = 6
 max-branches = 12
 # Maximum number of statements in function / method body
 max-statements = 50
-# Maximum number of parents for a class (see R0901).
-max-parents = 7
-# Maximum number of attributes for a class (see R0902).
-max-attributes = 40
-# Minimum number of public methods for a class (see R0903).
-min-public-methods = 0
 # Maximum number of public methods for a class (see R0904).
 max-public-methods = 60
-
-[tool.pylint.similarities]
-# Comments are removed from the similarity computation
-ignore-comments = true
-# Docstrings are removed from the similarity computation
-ignore-docstrings = true
-# Minimum lines number of a similarity.
-min-similarity-lines = 25
-
-[tool.pylint.typecheck]
-# List of class names for which member attributes should not be checked (useful
-# for classes with dynamically set attributes). This supports the use of
-# qualified names.
-ignored-classes = []
 
 
 [tool.pytest.ini_options]
@@ -149,3 +140,8 @@ fail_under = 80
 omit = [
     "__main__.py",
 ]
+
+[tool.mypy]
+show_error_codes = true
+ignore_missing_imports = true
+allow_redefinition = true

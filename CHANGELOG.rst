@@ -6,6 +6,7 @@ Version 2024.10.5
 
 - Reorganize routers internally.
 - Setup GitHub actions.
+- Migrate to uv.
 - First OSS release.
 
 

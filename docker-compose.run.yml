@@ -1,0 +1,49 @@
+services:
+  app:
+    profiles: [run]
+    image: "${IMAGE_NAME}:${IMAGE_TAG}"
+    build:
+      dockerfile: Dockerfile
+      args:
+      - ENVIRONMENT
+      - APP_NAME
+      - APP_VERSION
+      - COMMIT_SHA
+    ports:
+    - "127.0.0.1:8200:8000"
+    volumes:
+    - tmp:/tmp
+    - type: bind
+      source: /gpfs
+      target: /gpfs
+      read_only: true
+    environment:
+    - APP_DEBUG=true
+    - PYTHONASYNCIODEBUG=1
+    - LOG_LEVEL=DEBUG
+    - LOG_SERIALIZE=false
+    - LOG_BACKTRACE=true
+    - LOG_DIAGNOSE=true
+    - LOG_STANDARD_LOGGER__root=INFO
+    develop:
+      watch:
+      - action: sync+restart
+        path: ./app
+        target: /code/app
+      - action: rebuild
+        path: uv.lock
+    healthcheck:
+      test: [CMD, "/code/scripts/healthcheck.sh"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+      start_interval: 1s
+
+volumes:
+  tmp:
+    driver: local
+    driver_opts:
+      type: "tmpfs"
+      device: "tmpfs"
+      o: "size=500m"
