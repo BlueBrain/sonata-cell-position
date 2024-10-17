@@ -200,10 +200,10 @@ def _build_df_list(
             ids = np.setdiff1d(ids, df_list[-1].index.to_numpy(), assume_unique=True)
         # Add attributes to the filtering query to load all the required attributes.
         # For better performance, keys that filter out more records should go first.
-        query_dict = query_dict | {col: [] for col in attributes if col not in query_dict}
+        query_dict = query_dict | {col: [] for col in attributes if col not in query_dict}  # noqa: PLW2901
         df = pd.DataFrame(index=ids)
         for key, values in query_dict.items():
-            values = ensure_list(values) if values else []
+            values = ensure_list(values) if values else []  # noqa: PLW2901
             keep = key in attributes_set
             df = _filter_add_key(node_population, df=df, key=key, values=values, keep=keep)
             L.info("Filtered by {}={} -> {} ids", key, values or "all", len(df))

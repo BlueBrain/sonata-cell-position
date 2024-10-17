@@ -4,6 +4,7 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 import app.serialize as test_module
+
 from tests.utils import load_json
 
 

@@ -8,9 +8,14 @@ from pathlib import Path
 from typing import Annotated, Any
 
 from fastapi import Header, HTTPException, Query
-from pydantic import AfterValidator
-from pydantic import BaseModel as PydanticBaseModel
-from pydantic import Field, ValidationError, ValidationInfo, model_validator
+from pydantic import (
+    AfterValidator,
+    BaseModel as PydanticBaseModel,
+    Field,
+    ValidationError,
+    ValidationInfo,
+    model_validator,
+)
 from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_422_UNPROCESSABLE_ENTITY
 from voxcell import RegionMap
 

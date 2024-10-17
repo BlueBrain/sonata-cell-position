@@ -3,6 +3,7 @@ from fastapi import HTTPException
 from pydantic import ValidationError
 
 import app.schemas as test_module
+
 from tests.utils import NEXUS_BUCKET, NEXUS_ENDPOINT, NEXUS_TOKEN
 
 

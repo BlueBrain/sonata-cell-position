@@ -10,6 +10,7 @@ from requests import HTTPError
 
 import app.nexus as test_module
 from app.errors import ClientError
+
 from tests.utils import assert_cache, clear_cache
 
 

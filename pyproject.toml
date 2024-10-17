@@ -91,11 +91,11 @@ convention = "google"
 
 [tool.ruff.lint.pylint]
 # Maximum number of arguments for function / method
-max-args = 9
+max-args = 11
 # Maximum number of locals for function / method body
 max-locals = 15
 # Maximum number of return / yield for function / method body
-max-returns = 6
+max-returns = 7
 # Maximum number of branch for function / method body
 max-branches = 12
 # Maximum number of statements in function / method body

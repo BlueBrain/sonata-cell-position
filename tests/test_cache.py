@@ -3,6 +3,7 @@ import logging
 import pytest
 
 import app.cache as test_module
+
 from tests.utils import assert_cache, clear_cache
 
 

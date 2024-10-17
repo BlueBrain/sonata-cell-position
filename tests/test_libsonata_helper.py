@@ -1,4 +1,3 @@
-import contextlib
 import re
 
 import libsonata
@@ -9,6 +8,7 @@ import pytest
 import app.libsonata_helper as test_module
 from app.constants import DTYPES
 from app.errors import CircuitError
+
 from tests.utils import assert_frame_equal, dump_json, load_json
 
 

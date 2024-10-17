@@ -17,6 +17,7 @@ import app.main
 import app.nexus
 import app.service
 from app.schemas import CircuitRef, NexusConfig
+
 from tests.utils import (
     BRAIN_REGION_GZIP_FILE,
     CIRCUIT_ID,

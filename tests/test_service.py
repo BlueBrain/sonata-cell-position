@@ -5,6 +5,7 @@ import voxcell
 
 import app.service as test_module
 from app.errors import CircuitError
+
 from tests.utils import assert_cache, clear_cache
 
 

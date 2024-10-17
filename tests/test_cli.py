@@ -5,6 +5,7 @@ import pytest
 from click.testing import CliRunner
 
 import app.cli as test_module
+
 from tests.utils import _assert_populations_equal, _get_node_population, load_json
 
 
@@ -23,7 +24,7 @@ def test_export(tmp_path, input_path):
         ("--how", "json"),
     ]
     runner = CliRunner()
-    with runner.isolated_filesystem(temp_dir=tmp_path) as td:
+    with runner.isolated_filesystem(temp_dir=tmp_path):
         result = runner.invoke(test_module.cli, ["export", *chain.from_iterable(options)])
 
     assert result.output == ""
@@ -62,7 +63,7 @@ def test_sample(tmp_path, input_path, params, expected):
         *params,
     ]
     runner = CliRunner()
-    with runner.isolated_filesystem(temp_dir=tmp_path) as td:
+    with runner.isolated_filesystem(temp_dir=tmp_path):
         result = runner.invoke(test_module.cli, ["sample", *chain.from_iterable(options)])
 
     assert result.output == ""
