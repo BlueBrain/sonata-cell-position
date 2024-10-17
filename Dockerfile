@@ -70,7 +70,7 @@ COPY ./supervisord.conf /etc/supervisor/supervisord.conf
 COPY --chown=app:app ./src/app/ /code/app/
 COPY --chown=app:app ./scripts/healthcheck.sh /code/scripts/healthcheck.sh
 
-RUN python -m compileall .  # compile app files
+RUN python -m compileall app  # compile app files
 
 ARG APP_NAME
 ARG APP_VERSION
