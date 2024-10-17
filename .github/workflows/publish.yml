@@ -1,0 +1,23 @@
+name: Build and publish the Docker image
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  publish-to-docker-hub:
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: prod
+      IMAGE_NAME: bluebrain/obp-sonata-cell-position
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.BBPBUILDBOT_DOCKERHUB_USER }}
+          password: ${{ secrets.BBPBUILDBOT_DOCKERHUB_PASSWORD }}
+      - name: Build and publish the Docker image to DockerHub
+        run: make publish

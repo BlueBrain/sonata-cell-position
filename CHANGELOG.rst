@@ -5,6 +5,8 @@ Version 2024.10.5
 -----------------
 
 - Reorganize routers internally.
+- Setup GitHub actions.
+- First OSS release.
 
 
 Version 2024.10.4
