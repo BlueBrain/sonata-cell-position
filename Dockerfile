@@ -6,7 +6,7 @@ ARG PYTHON_BASE=${PYTHON_VERSION}-slim
 # uv stage
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} as uv
 
-# build stage
+# main stage
 FROM python:$PYTHON_BASE
 SHELL ["bash", "-e", "-x", "-o", "pipefail", "-c"]
 
