@@ -2,7 +2,7 @@ import gzip
 import importlib.resources
 import shutil
 import tempfile
-from collections.abc import AsyncIterator
+from collections.abc import AsyncIterator, Iterator
 from pathlib import Path
 from unittest.mock import create_autospec
 
@@ -98,7 +98,7 @@ def hierarchy(tmp_path) -> Path:
 
 
 @pytest.fixture(scope="session")
-def alternative_brain_region_file() -> Path:
+def alternative_brain_region_file() -> Iterator[Path]:
     """Return the path to an uncompressed alternative region file."""
     with tempfile.TemporaryDirectory() as tmp_dir:
         tmp_path = Path(tmp_dir)
@@ -147,7 +147,7 @@ async def api_client_with_auth(api_client) -> AsyncIterator[AsyncClient]:
 
 
 @pytest.fixture
-def _patch_get_region_map(monkeypatch, region_map) -> None:
+def _patch_get_region_map(monkeypatch, region_map) -> Iterator[None]:
     """Patch get_region_map to return the RegionMap loaded from hierarchy.json."""
     m = create_autospec(app.service.get_region_map, return_value=region_map)
     monkeypatch.setattr("app.service.get_region_map", m)
@@ -156,7 +156,7 @@ def _patch_get_region_map(monkeypatch, region_map) -> None:
 
 
 @pytest.fixture
-def _patch_get_alternative_region_map(monkeypatch, alternative_region_map) -> None:
+def _patch_get_alternative_region_map(monkeypatch, alternative_region_map) -> Iterator[None]:
     """Patch get_alternative_region_map to return the dict loaded from regionmap.json."""
     m = create_autospec(app.service.get_alternative_region_map, return_value=alternative_region_map)
     monkeypatch.setattr("app.service.get_alternative_region_map", m)
@@ -165,7 +165,7 @@ def _patch_get_alternative_region_map(monkeypatch, alternative_region_map) -> No
 
 
 @pytest.fixture
-def _patch_get_circuit_config_path(monkeypatch, input_path) -> None:
+def _patch_get_circuit_config_path(monkeypatch, input_path) -> Iterator[None]:
     """Patch get_circuit_config_path to return the path to the circuit used for tests."""
     m = create_autospec(app.service.get_circuit_config_path, return_value=input_path)
     monkeypatch.setattr("app.service.get_circuit_config_path", m)
@@ -174,7 +174,7 @@ def _patch_get_circuit_config_path(monkeypatch, input_path) -> None:
 
 
 @pytest.fixture
-def _patch_get_circuit_config_path_copy(monkeypatch, input_path_copy) -> None:
+def _patch_get_circuit_config_path_copy(monkeypatch, input_path_copy) -> Iterator[None]:
     """Patch get_circuit_config_path to return the path to a copy of the circuit used for tests."""
     m = create_autospec(app.service.get_circuit_config_path, return_value=input_path_copy)
     monkeypatch.setattr("app.service.get_circuit_config_path", m)
@@ -183,7 +183,7 @@ def _patch_get_circuit_config_path_copy(monkeypatch, input_path_copy) -> None:
 
 
 @pytest.fixture(autouse=True)
-def _clear_all_caches() -> None:
+def _clear_all_caches() -> Iterator[None]:
     with (
         clear_cache(app.cache._get_sampled_circuit_paths),
         clear_cache(app.libsonata_helper.get_node_population_name),
