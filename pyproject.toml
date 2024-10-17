@@ -110,7 +110,7 @@ addopts = [
     "--import-mode=importlib",
     "-vv",
     "-ra",
-    "--cov=src/app",
+    "--cov=app",
     "--durations=10",
     "--durations-min=1.0",
 ]

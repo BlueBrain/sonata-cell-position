@@ -32,31 +32,35 @@ lint:  ## Run linters
 	uv run -m ruff check
 	uv run -m mypy src/app tests
 
+test: export PYTHONPATH=src
+test: export APP_DEBUG=true
+test: export LOG_LEVEL=DEBUG
+test: export LOKY_EXECUTOR_ENABLED=0
+test: export ENTITY_CACHE_INFO=1
+test: export REGION_MAP_CACHE_INFO=1
+test: export CIRCUIT_CACHE_INFO=1
+test: export CACHED_SAMPLING_RATIO=0.5
+test: export ALTERNATIVE_REGION_MAP_CACHE_INFO=1
+test:  ## Run tests
+	uv run -m pytest
+	uv run -m coverage xml
+	uv run -m coverage html
+
 build:  ## Build the Docker image
 	docker compose --progress=plain build app
 
 publish: build  ## Publish the Docker image to DockerHub
 	docker compose push app
 
-run: export COMPOSE_PROFILES=run
 run: build  ## Run the application in Docker
 	docker compose up --watch --remove-orphans
 
-kill: export COMPOSE_PROFILES=run,test
 kill:  ## Take down the application and remove the volumes
 	docker compose down --remove-orphans --volumes
 
-clean: export COMPOSE_PROFILES=run,test
 clean: ## Take down the application and remove the volumes and the images
 	docker compose down --remove-orphans --volumes --rmi all
 
-test: build  ## Run tests in Docker
-	docker compose run --rm test
-
-test-local:  ## Run tests locally
-	uv run -m pytest
-
-show-config: export COMPOSE_PROFILES=run,test
 show-config:  ## Show the docker-compose configuration in the current environment
 	docker compose config
 

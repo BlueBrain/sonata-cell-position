@@ -32,6 +32,4 @@ jobs:
       - name: Cleanup
         if: ${{ always() }}
         run: |
-          make clean
-          docker system prune --force --volumes
           uv cache prune --ci
