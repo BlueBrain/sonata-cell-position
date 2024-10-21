@@ -38,6 +38,7 @@ async def client_error_handler(request: Request, exc: ClientError) -> JSONRespon
 
 app = FastAPI(
     title=settings.APP_NAME,
+    version=settings.APP_VERSION or "0.0.0",
     debug=settings.APP_DEBUG,
     lifespan=lifespan,
     root_path=settings.ROOT_PATH,

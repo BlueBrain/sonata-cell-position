@@ -7,6 +7,7 @@ Version 2024.10.5
 - Reorganize routers internally.
 - Setup GitHub actions.
 - Migrate to uv.
+- Add Expires and Cache-Control: max-age response headers.
 - First OSS release.
 
 
